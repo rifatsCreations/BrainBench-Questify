@@ -109,86 +109,152 @@ function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+
+let isProcessingAI = false;
+let lastRequestTime = 0;
+let controller = null;
+
 async function handleChoice(btn, selected, correct) {
+
+    // 🚫 Block multiple clicks / parallel API calls
+    if (isProcessingAI) return;
+
+    const now = Date.now();
+
+    // 🚫 Simple debounce (2 sec gap)
+    if (now - lastRequestTime < 2000) return;
+
+    lastRequestTime = now;
+    isProcessingAI = true;
+
     const btns = document.querySelectorAll('.option-btn');
+
+    // disable all buttons
     btns.forEach(b => b.disabled = true);
 
     answeredCount = Math.min(answeredCount + 1, questions.length);
+
     const isCorrect = (selected === correct);
 
     if (isCorrect) {
         score++;
-        btn.style.cssText = "background:#2ecc71; color:white; border-color:#2ecc71;";
+        btn.style.cssText =
+            "background:#2ecc71; color:white; border-color:#2ecc71;";
     } else {
-        btn.style.cssText = "background:#e74c3c; color:white; border-color:#e74c3c;";
+        btn.style.cssText =
+            "background:#e74c3c; color:white; border-color:#e74c3c;";
+
         btns.forEach(b => {
             if (b.innerText.trim() === correct) {
-                b.style.cssText = "background:#2ecc71; color:white; border-color:#2ecc71;";
+                b.style.cssText =
+                    "background:#2ecc71; color:white; border-color:#2ecc71;";
             }
         });
     }
 
     const aiBox = document.getElementById('ai-premium-box');
     const aiText = document.getElementById('explanation-text');
+
     const currentQuestion = questions[currentIdx];
     const currentSubject = subjectName || "সাধারণ জ্ঞান";
-    const fallbackExplanation = currentQuestion?.explanation?.trim() || "✕ দুঃখিত, এই মুহূর্তে কোনও ব্যাখ্যা পাওয়া যাচ্ছে না।";
 
     if (aiBox && aiText) {
         aiBox.style.display = 'block';
-        aiText.innerHTML = `<span style="color: #8a2be2; font-weight: 600;">🤖 AI আপনার প্রশ্নটি বিশ্লেষণ করছে, একটু অপেক্ষা করুন...</span>`;
+        aiText.innerHTML = `
+        <span style="color:#8a2be2; font-weight:600;">
+            🤖 AI প্রশ্নটি বিশ্লেষণ করছে...
+        </span>`;
     }
 
     const nextBtn = document.getElementById('next-btn');
-    const safeFallbackText = fallbackExplanation;
 
     try {
+
         const sessionResp = await _sb.auth.getSession();
         const token = sessionResp?.data?.session?.access_token || null;
 
         const payload = {
             subject: currentSubject,
             question: currentQuestion.question,
-            correct: correct,
-            selected: selected,
-            isCorrect: isCorrect,
-            fallback: fallbackExplanation
+            correct,
+            selected,
+            isCorrect
         };
 
-        const headers = { "Content-Type": "application/json" };
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
         if (token) {
             headers["Authorization"] = `Bearer ${token}`;
         }
 
-        const edgeFunctionUrl = `${_sb.supabaseUrl}/functions/v1/gemini-explain`;
+       const edgeFunctionUrl =
+    'https://srybujpeblzvettlclst.supabase.co/functions/v1/groq-explain';
+
+        // 🚫 abort previous request (important fix)
+        if (controller) controller.abort();
+        controller = new AbortController();
+
         const response = await fetch(edgeFunctionUrl, {
             method: "POST",
-            headers: headers,
-            body: JSON.stringify(payload)
+            headers,
+            body: JSON.stringify(payload),
+            signal: controller.signal
         });
 
         const result = await response.json().catch(() => ({}));
-        const aiTextResult = typeof result?.text === 'string' ? result.text : null;
 
-       if (aiText && aiTextResult && aiTextResult.trim() !== '') {
-            let renderedText = aiTextResult.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-             renderedText = renderedText.replace(/\n/g, '<br>');
-             aiText.innerHTML = renderedText;
-     } else if (aiText) {
-             // ডাটাবেসের ব্যাকআপ টেক্সট দেখানো বন্ধ! এআই কাজ না করলে ইউজারকে ট্রাই এগেইন মেসেজ দেবে।
-        aiText.innerHTML = `<span style='color:#e74c3c; font-weight: 500;'>✕ এআই রেসপন্স তৈরিতে সাময়িক সমস্যা হয়েছে। দয়া করে পরবর্তী প্রশ্নে চেষ্টা করুন।</span>`;
-}   
-    } catch (err) {
-        console.error("Edge Function Error:", err);
-        if (aiText) {
-            aiText.innerHTML = `<span style='color:#333;'>${safeFallbackText}</span>`;
+        console.log("FULL AI RESPONSE:", result);
+
+        const aiTextResult =
+            typeof result?.text === 'string'
+                ? result.text
+                : null;
+
+        if (aiText && aiTextResult && aiTextResult.trim() !== '') {
+
+           let renderedText = aiTextResult
+            .replace(/```html/g, '')
+            .replace(/```/g, '')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/^\s*[-*]\s+/gm, '• ') // বুলেট পয়েন্টগুলোকে (-, *) ডট চিহ্নে রূপান্তর করবে
+            .replace(/\n/g, '<br>');
+
+            aiText.innerHTML = renderedText;
+
+        } else if (aiText) {
+            aiText.innerHTML = `
+            <span style='color:#e74c3c; font-weight:500;'>
+                ❌ AI explanation তৈরি করা যায়নি।
+            </span>`;
         }
+
+    } catch (err) {
+
+        // ignore abort error (normal case)
+        if (err.name !== "AbortError") {
+            console.error("Edge Function Error:", err);
+
+            if (aiText) {
+                aiText.innerHTML = `
+                <span style='color:#e74c3c; font-weight:500;'>
+                    ❌ AI explanation লোড করা যায়নি। আবার চেষ্টা করুন।
+                </span>`;
+            }
+        }
+
     } finally {
+
+        isProcessingAI = false;
+
         if (nextBtn) {
             nextBtn.disabled = false;
         }
     }
 }
+
+
 
 async function calculateAndSave() {
     if (answeredCount < questions.length) {
