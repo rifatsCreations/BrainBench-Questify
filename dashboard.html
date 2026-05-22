@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+    <!-- Supabase Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="global-dark-mode.css">
+</head>
+<body>
+    <div class="floating-bg">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+<button id="dark-theme-toggle" class="dark-mode-toggle-btn" onclick="toggleAppTheme()">🌙</button>
+    <div class="dashboard-container">
+        <!-- প্রোফাইল হেডার -->
+        <header class="user-header">
+            <div class="profile-info">
+                <div class="avatar-circle" onclick="previewImage()">
+                    <img id="user-photo" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
+                </div>
+                <div class="user-text">
+                    <h2 id="user-display-name">লোড হচ্ছে...</h2>
+                    <p id="user-email-text"></p>
+                </div>
+
+                <!-- সাফল্যের হার গ্রাফ -->
+                <div class="graph-wrapper">
+                    <div class="graph-container">
+                        <span id="graph-percentage">০%</span>
+                        <div class="graph-bar-container">
+                            <div id="success-graph-bar" class="graph-bar-fill"></div>
+                        </div>
+                    </div>
+                    <p class="graph-label">সাফল্যের হার</p>
+                </div>
+
+                <!-- সর্বশেষ পরীক্ষা কার্ড (আপডেটেড) -->
+                <div class="recent-exam-card">
+                    <div class="card-header">
+                        <span>🕒 সর্বশেষ পরীক্ষা</span>
+                    </div>
+                    <div class="card-body">
+                        <h4 id="last-exam-subject">লোড হচ্ছে...</h4>
+                        <p>স্কোর: <span id="last-exam-score">০/০</span></p>
+                        <div class="exam-status" id="last-exam-status">অপেক্ষা করুন</div>
+                    </div>
+                    <!-- নতুন বাটন যা হিস্ট্রি মডাল খুলবে -->
+                    <button class="history-btn" onclick="openHistoryModal()">সকল পরীক্ষার রেজাল্ট</button>
+                </div>
+            </div>
+            <!-- আমরা একটি কন্টেইনার দিচ্ছি যাতে বাটনগুলো নিচে নিচে আসে -->
+<div class="action-wrapper">
+    <button onclick="openProfileEdit()" class="edit-profile-btn">⚙️ প্রোফাইল সাজান</button>
+    <button onclick="handleLogout()" class="btn-logout">🚪 লগআউট করুন</button>
+</div>
+        </header>
+
+
+
+
+
+
+
+        <div class="selection-box">
+    <div class="dropdown-wrapper">
+        <label for="subject-selector" class="select-label">📚 আপনার পছন্দের বিষয় বেছে নিন</label>
+        <div class="custom-select-container">
+            <!-- Custom Dropdown -->
+            <div class="custom-dropdown-wrapper">
+                <div class="custom-dropdown-header" onclick="toggleCustomDropdown()">
+                    <span id="selected-subject-text">সাবজেক্ট নির্বাচন করুন...</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div id="custom-dropdown-list" class="custom-dropdown-list" style="display:none;">
+                    <!-- Options populated by JS -->
+                </div>
+            </div>
+            <select id="subject-selector" style="display:none;">
+                <option value="" disabled selected>সাবজেক্ট নির্বাচন করুন...</option>
+            </select>
+            <button class="add-subject-btn" onclick="addSelectedSubject()">+ যোগ করুন</button>
+        </div>
+    </div>
+    
+    <div id="temp-selection-list" class="temp-tags"></div>
+    
+    <button id="final-save-btn" class="save-selections-btn" onclick="saveUserSelectionsToDB()" style="display:none;">
+        💾 পরিবর্তনগুলো সেভ করুন
+    </button>
+</div>
+
+
+
+
+
+
+        <div id="selected-subjects-container" class="subject-grid">
+            <!-- ডাইনামিক কার্ড এখানে আসবে -->
+        </div>
+    </div>
+
+    <!-- পরীক্ষার ইতিহাস মডাল (নতুন যোগ করা হয়েছে) -->
+    <div id="historyModal" class="modal" style="display:none;">
+        <div class="modal-content history-glass">
+            <div class="modal-header">
+                <h2>📊 পরীক্ষার ইতিহাস</h2>
+                <span class="close" onclick="closeHistoryModal()">&times;</span>
+            </div>
+            <div class="history-filters">
+                <div class="filter-group">
+                    <label for="history-filter-date-from">তারিখ থেকে</label>
+                    <input type="date" id="history-filter-date-from">
+                </div>
+                <div class="filter-group">
+                    <label for="history-filter-date-to">তারিখ পর্যন্ত</label>
+                    <input type="date" id="history-filter-date-to">
+                </div>
+                <div class="filter-group">
+                    <label for="history-filter-subject">বিষয়</label>
+                    <select id="history-filter-subject">
+                        <option value="">সব বিষয়</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="history-filter-topic">টপিক</label>
+                    <select id="history-filter-topic">
+                        <option value="">সব টপিক</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="history-filter-type">টাইপ</label>
+                    <select id="history-filter-type">
+                        <option value="">সব টাইপ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="filter-btn" onclick="applyHistoryFilters()">ফিল্টার করুন</button>
+                <button class="filter-clear-btn" onclick="clearHistoryFilters()">রিসেট</button>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>তারিখ</th>
+                            <th>বিষয়</th>
+                            <th>টপিক</th>
+                            <th>টাইপ</th>
+                            <th>স্কোর</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <!-- JS দিয়ে ডাটা আসবে -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- প্রোফাইল এডিট মডাল -->
+    <div id="profile-modal" class="modal" style="display:none;">
+        <div class="modal-content glass">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2>প্রোফাইল সেটিংস</h2>
+            
+            <div class="edit-section">
+                <div class="input-group">
+                    <label>আপনার নাম:</label>
+                    <input type="text" id="edit-name">
+                </div>
+                <div class="input-group">
+                    <label>প্রোফাইল ছবি (ব্রাউজ করুন):</label>
+                    <input type="file" id="photo-upload" accept="image/*">
+                </div>
+                <button class="save-btn" onclick="updateProfile()">প্রোফাইল সেভ করুন</button>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+            <div class="edit-section">
+                <h3>পাসওয়ার্ড পরিবর্তন</h3>
+                <div class="input-group password-wrapper">
+                    <label>বর্তমান পাসওয়ার্ড:</label>
+                    <div class="input-row">
+                        <input type="password" id="current-password" placeholder="বর্তমান পাসওয়ার্ড দিন">
+                        <span class="toggle-password" onclick="togglePass('current-password')">👁️</span>
+                    </div>
+                </div>
+
+                <div class="input-group password-wrapper">
+                    <label>নতুন পাসওয়ার্ড:</label>
+                    <div class="input-row">
+                        <input type="password" id="new-password" placeholder="কমপক্ষে ৬ ডিজিট">
+                        <span class="toggle-password" onclick="togglePass('new-password')">👁️</span>
+                    </div>
+                </div>
+                
+                <button class="save-btn" style="background: #333;" onclick="handlePasswordUpdate()">পাসওয়ার্ড পরিবর্তন করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ইমেজ প্রিভিউ মডাল -->
+    <div id="image-preview-modal" class="modal" onclick="this.style.display='none'" style="display:none; background-color: rgba(0,0,0,0.8); z-index: 9999;">
+        <span class="close" style="color: white; font-size: 40px; position: absolute; right: 20px; top: 10px; cursor: pointer;">&times;</span>
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <img id="full-preview-img" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2);">
+        </div>
+    </div>
+
+    <script src="dashboard-script.js"></script>
+    <script src="global-theme-engine.js"></script>
+</body>
+</html>

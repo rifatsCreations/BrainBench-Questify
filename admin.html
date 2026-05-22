@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="global-dark-mode.css">
+   <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+<div class="background-animation" id="bg-anim">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+</div>
+
+    <!-- অ্যানিমেশন লেয়ার -->
+    <div class="background-animation" id="bg-anim"></div>
+    <button id="dark-theme-toggle" class="dark-mode-toggle-btn" onclick="toggleAppTheme()">🌙</button>
+    <div class="admin-container">
+        <header>
+            <h1>🛠️ অ্যাডমিন কন্ট্রোল প্যানেল</h1>
+            <p>আপনার কন্টেন্টগুলো এখান থেকে ম্যানেজ করুন</p>
+        </header>
+
+        <!-- ১. ইউজার রোল -->
+        <div class="admin-card">
+            <h2>🔑 ইউজার পারমিশন</h2>
+            <input type="email" id="user-email-input" placeholder="ইউজারের ইমেইল">
+            <div class="btn-group">
+                <button onclick="updateUserRole('admin')" class="btn-primary success-btn">অ্যাডমিন বানান</button>
+                <button onclick="updateUserRole('user')" class="btn-primary danger-btn">রিমুভ করুন</button>
+            </div>
+        </div>
+
+        <!-- ২. সাবজেক্ট যোগ -->
+        <div class="admin-card">
+            <h2>📚 সাবজেক্ট যোগ করুন</h2>
+            <input type="text" id="sub-name" placeholder="সাবজেক্টের নাম লিখুন">
+            <button onclick="addSubject()" class="btn-primary">সাবজেক্ট সেভ করুন</button>
+        </div>
+
+        <!-- ৩. টপিক যোগ -->
+        <div class="admin-card">
+            <h2>📂 টপিক যোগ করুন</h2>
+            <select id="sub-dropdown-for-topic">
+                <option value="">সাবজেক্ট লোড হচ্ছে...</option>
+            </select>
+            <input type="text" id="topic-name" placeholder="টপিকের নাম লিখুন">
+            <button onclick="addTopic()" class="btn-primary">টপিক সেভ করুন</button>
+        </div>
+
+        <!-- ৪. প্রশ্ন আপলোড -->
+        <div class="admin-card">
+            <h2>📝 বাল্ক আপলোড (CSV)</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <select id="sub-dropdown-for-csv" onchange="loadTopicsBySubject(this.value)">
+                    <option value="">সাবজেক্ট বেছে নিন</option>
+                </select>
+                <select id="topic-dropdown-for-csv">
+                    <option value="">টপিক বেছে নিন</option>
+                </select>
+            </div>
+            <input type="file" id="csv-upload" accept=".csv">
+            <button onclick="uploadCSV()" class="btn-primary">প্রশ্ন আপলোড শুরু করুন</button>
+        </div>
+
+        <button onclick="handleLogout()" class="btn-primary danger-btn" style="max-width: 200px; margin: 20px auto; display: block;">
+    🚪 লগ আউট করুন
+</button>
+    </div>
+
+    <script src="admin-script.js"></script>
+    <script src="global-theme-engine.js"></script>
+</body>
+</html>

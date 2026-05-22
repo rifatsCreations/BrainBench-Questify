@@ -1,0 +1,1192 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #6366f1;
+    --accent: #a855f7;
+    --bg-light: #f0f4ff;
+}
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Hind Siliguri', sans-serif;
+    background-color: var(--bg-light);
+    overflow-x: hidden;
+}
+
+/* কালারফুল বাবল এনিমেশন */
+.floating-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none;
+}
+.bubble {
+    position: absolute; border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.15));
+    animation: float 20s infinite linear;
+}
+.bubble:nth-child(1) { width: 250px; height: 250px; top: 10%; left: -50px; }
+.bubble:nth-child(2) { width: 200px; height: 200px; top: 50%; right: -30px; animation-delay: 2s; }
+.bubble:nth-child(3) { width: 150px; height: 150px; bottom: 10%; left: 20%; animation-delay: 4s; }
+.bubble:nth-child(4) { width: 200px; height: 200px; top: 50%; left: -100px; }
+.bubble:nth-child(5) { width: 220px; height: 220px; top: 10%; right: -100px; }
+
+
+@keyframes float {
+    0% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(30px, 50px) rotate(180deg); }
+    100% { transform: translate(0,0) rotate(360deg); }
+}
+
+.dashboard-container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+/* প্রোফাইল হেডার */
+.user-header {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+    padding: 25px 40px; border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 40px;
+}
+
+.profile-info { display: flex; align-items: center; gap: 20px; }
+.avatar-circle {
+    width: 85px; height: 85px; border-radius: 50%;
+    border: 3px solid var(--primary); overflow: hidden;
+}
+
+.edit-profile-btn {
+    background: var(--primary); color: white; border: none;
+    padding: 12px 20px; border-radius: 12px; cursor: pointer;
+    font-weight: 600; transition: 0.3s;
+}
+
+/* সাবজেক্ট বক্স গ্রিড */
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.subject-box {
+    background: white; padding: 40px 25px; border-radius: 24px;
+    text-align: center; position: relative; transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+}
+
+.subject-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(99,102,241,0.1);
+}
+
+.subject-box h3 { font-size: 22px; color: #334155; margin-bottom: 20px; }
+
+/* মডাল ডিজাইন */
+.modal {
+    position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
+}
+.modal-content.glass {
+    background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px);
+    padding: 40px; border-radius: 25px; width: 400px;
+}
+.input-group { margin-bottom: 15px; text-align: left; }
+.input-group input {
+    width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;
+    box-sizing: border-box; margin-top: 5px;
+}
+.save-btn {
+    width: 100%; background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; border: none; padding: 14px; border-radius: 10px; cursor: pointer;
+}
+
+
+.divider { margin: 25px 0; border: 0; border-top: 1px solid #eee; }
+.edit-section h3 { font-size: 18px; color: #475569; margin-bottom: 10px; }
+
+.file-input {
+    background: #f8fafc; padding: 8px; border: 1px dashed #cbd5e1;
+    cursor: pointer; width: 100%; box-sizing: border-box;
+}
+
+.pass-btn {
+    width: 100%; background: #1e293b; color: white;
+    border: none; padding: 12px; border-radius: 10px;
+    cursor: pointer; margin-top: 10px; font-weight: 600;
+}
+.pass-btn:hover { background: #000; }
+
+
+/* আপনার প্রোফাইল ইমেজের কন্টেইনার */
+.avatar-circle {
+    width: 80px;            /* আপনার পছন্দমতো সাইজ */
+    height: 80px;           /* width এবং height সমান রাখবেন */
+    border-radius: 50%;     /* একদম গোল করার জন্য */
+    overflow: hidden;       /* বাড়তি অংশ কেটে ফেলার জন্য */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #6366f1; /* ছবির চারপাশে একটি সুন্দর বর্ডার */
+}
+
+/* আপনার আসল ইমেজটি যেভাবে ফিট হবে */
+#user-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* ছবিকে জুম বা চ্যাপ্টা না করে সুন্দরভাবে ফিট করবে */
+    object-position: center; /* ছবির ফোকাস মাঝখানে রাখবে */
+}
+
+
+
+
+/* ক্লোজ বাটনটিকে বড় করার জন্য */
+.close {
+    font-size: 35px;        /* বাটনটি বড় হবে */
+    font-weight: bold;
+    color: #333;            /* শুরুতে হালকা কালো বা ধূসর থাকবে */
+    cursor: pointer;
+    transition: 0.3s;       /* কালার পরিবর্তনের সময় স্মুথ হবে */
+    line-height: 1;         /* অ্যালাইনমেন্ট ঠিক রাখার জন্য */
+    
+    /* নিচের ৩টি লাইন অবশ্যই যুক্ত করতে হবে */
+    display: flex;          /* ইনলাইন থেকে ফ্লেক্স করা হলো */
+    align-items: center;    /* মাঝখানে অ্যালাইন করার জন্য */
+    justify-content: center;/* মাঝখানে অ্যালাইন করার জন্য */
+    
+    /* বাটনটিকে সুন্দর গোল করতে চাইলে নিচের লাইনগুলো দিতে পারেন */
+    width: 40px;            /* ফিক্সড প্রস্থ */
+    height: 40px;           /* ফিক্সড উচ্চতা */
+    border-radius: 50%;     /* গোল করার জন্য */
+}
+
+/* মাউস নিলে (Hover) লাল হওয়ার জন্য */
+.close:hover {
+    background: #e74c3c;
+    color: white;
+    transform: rotate(90deg); /* হোভারে এখন পারফেক্টলি ঘুরবে */
+}
+
+
+.input-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-row input {
+    width: 100%;
+    padding-right: 40px; /* আইকনের জন্য জায়গা রাখা */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    color: #666;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+.graph-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.graph-container {
+    position: relative;
+    width: 40px;          /* narrow column */
+    height: 150px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(240,248,255,0.9));
+    border-radius: 0 0 20px 20px; /* flat top, rounded bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid rgba(226,232,240,0.9);
+    overflow: hidden; /* clip waves to the container edges */
+    box-shadow: inset 0 6px 12px rgba(14,165,233,0.03), 0 8px 20px rgba(2,6,23,0.03);
+}
+
+.graph-bar-fill {
+    width: 100%;
+    height: 0%;           /* শুরুতে ০ থাকবে, JS দিয়ে বাড়বে */
+    background: #0ea5e9;  /* সুন্দর Sky Blue কালার */
+    border-radius: 20px;
+    transition: height 2s ease-in-out; /* স্লো মোশন ইফেক্ট */
+}
+
+/* Water-like animated gradient for the filling bar */
+.graph-bar-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    border-radius: inherit;
+    overflow: hidden;
+}
+
+.graph-bar-fill.water {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to top, #38bdf8 0%, #60a5fa 55%, #93c5fd 100%);
+    box-shadow: inset 0 6px 18px rgba(14,165,233,0.12);
+    border-radius: 0 0 18px 18px; /* keep bottom rounded only */
+    overflow: visible;
+}
+
+.graph-bar-fill.shimmer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 40%, #a5b4fc 100%);
+    background-size: 200% 200%;
+    animation: shimmerMove 2500ms linear infinite;
+    box-shadow: inset 0 6px 18px rgba(14,165,233,0.12);
+    border-radius: 0 0 18px 18px;
+}
+
+@keyframes shimmerMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#graph-percentage {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #0ea5e9;
+    font-size: 14px;
+}
+
+.graph-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+/* ইতিহাস মডাল স্টাইল */
+.history-glass {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    width: 90% !important;
+    max-width: 900px;
+    margin: 2% auto;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.history-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    color: #475569;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #1f2937;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+    font-weight: 600;
+}
+
+.filter-group select {
+    padding-right: 42px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    transform: translateY(-1px);
+}
+
+.filter-group select:hover {
+    border-color: #6366f1;
+}
+
+.filter-group select option {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.custom-select-wrapper {
+    position: relative;
+}
+
+.custom-select-button {
+    width: 100%;
+    text-align: left;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: #f8f9ff;
+    color: #334155;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+.custom-select-button::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-right: 2px solid #6366f1;
+    border-bottom: 2px solid #6366f1;
+    transform: rotate(45deg);
+    margin-left: 12px;
+    transition: transform 0.2s ease;
+}
+
+.custom-select-wrapper.open .custom-select-button::after {
+    transform: rotate(-135deg);
+}
+
+.custom-select-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    max-height: 280px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: 18px;
+    box-shadow: 0 22px 60px rgba(99, 102, 241, 0.14);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.custom-select-wrapper.open .custom-select-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.custom-select-item {
+    padding: 14px 18px;
+    cursor: pointer;
+    color: #1f2937;
+    font-weight: 600;
+    transition: background 0.2s ease, color 0.2s ease;
+    border-bottom: 1px solid #eff2ff;
+}
+
+.custom-select-item:last-child {
+    border-bottom: none;
+}
+
+.custom-select-item:hover,
+.custom-select-item.active {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
+    color: #4338ca;
+}
+
+.custom-select-item.active {
+    font-weight: 700;
+}
+
+.custom-select-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-select-menu::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.35);
+    border-radius: 999px;
+}
+
+.custom-select-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.filter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.filter-btn,
+.filter-clear-btn {
+    border: none;
+    border-radius: 14px;
+    padding: 12px 22px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-btn {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+}
+
+.filter-clear-btn {
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+}
+
+.filter-btn:hover,
+.filter-clear-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(99, 102, 241, 0.12);
+}
+
+.table-wrapper {
+    max-height: 450px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #f1f5f9;
+    padding: 12px;
+    text-align: left;
+    color: #475569;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* ইতিহাস বাটন স্টাইল */
+.history-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* এলিমেন্টগুলোর মাঝখানের দূরত্ব */
+    flex-grow: 1; /* এটি কার্ডকে ডানের দিকে ঠেলে দিবে */
+}
+
+
+
+.recent-exam-card {
+    margin-left: 70px; /* এটি কার্ডটিকে তার বাম পাশের সব খালি জায়গা ছেড়ে দিয়ে ডানে পাঠিয়ে দিবে */
+    min-width: 200px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+}
+
+.graph-wrapper {
+    margin-right: 20px; /* গ্রাফের ডানে কিছুটা জায়গা খালি রাখা */
+}
+
+
+
+
+.selection-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(99, 102, 241, 0.08);
+    backdrop-filter: blur(10px);
+    margin: 30px 0;
+    text-align: center;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    position: relative;
+    z-index: 50;
+}
+
+.select-label {
+    display: block;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 18px;
+}
+
+.custom-select-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+
+#subject-selector {
+    flex: 1;
+    padding: 16px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    outline: none;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
+    cursor: pointer;
+    background: white;
+    color: #1e293b;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+#subject-selector:hover {
+    border-color: #6366f1;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
+}
+
+#subject-selector:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 8px 24px rgba(99, 102, 241, 0.15);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%634f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+#subject-selector option {
+    padding: 14px 18px;
+    background: white;
+    color: #1e293b;
+    border: none;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.6;
+    background-image: linear-gradient(#f0f4ff, #f0f4ff);
+}
+
+#subject-selector option:hover {
+    background-color: #e0e7ff !important;
+    background-image: linear-gradient(#e0e7ff, #e0e7ff);
+}
+
+#subject-selector option:checked {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    background-color: #6366f1 !important;
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+.add-subject-btn {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.add-subject-btn:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(99, 102, 241, 0.4);
+}
+
+.add-subject-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Custom Dropdown Styling */
+.custom-dropdown-wrapper {
+    position: relative;
+    flex: 1;
+    z-index: 100;
+}
+
+.custom-dropdown-header {
+    padding: 16px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-size: 16px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.custom-dropdown-header:hover {
+    border-color: #6366f1;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
+}
+
+.custom-dropdown-header.active {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.dropdown-arrow {
+    width: 20px;
+    height: 20px;
+    color: #6366f1;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-dropdown-header.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.custom-dropdown-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #6366f1;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 9999 !important;
+    animation: dropdownSlideDown 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropdownSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.custom-dropdown-option {
+    padding: 16px 18px;
+    cursor: pointer;
+    border: none;
+    background: white;
+    color: #1e293b;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.custom-dropdown-option:last-child {
+    border-bottom: none;
+    border-radius: 0 0 13px 13px;
+}
+
+.custom-dropdown-option:first-child {
+    border-radius: 13px 13px 0 0;
+}
+
+.custom-dropdown-option:hover {
+    background: linear-gradient(135deg, #f0f4ff 0%, #f3e8ff 100%);
+    color: #6366f1;
+    padding-left: 24px;
+}
+
+.custom-dropdown-option.selected {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    font-weight: 700;
+    position: relative;
+}
+
+.custom-dropdown-option.selected::after {
+    content: '✓';
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.custom-dropdown-option:active {
+    transform: scale(0.98);
+}
+
+/* Scrollbar styling for dropdown */
+.custom-dropdown-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.temp-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.tag {
+    background: #eef2ff;
+    color: #6366f1;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #c7d2fe;
+}
+
+.save-selections-btn {
+    margin-top: 20px;
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+
+
+
+
+
+
+
+
+
+.enter-btn {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #6366f1, #a855f7) !important;
+    color: white !important;
+    padding: 10px 30px !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+    margin-top: 15px !important;
+    transition: 0.3s all ease !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
+}
+
+.enter-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+}
+
+
+
+.action-wrapper {
+    display: flex;
+    flex-direction: column; /* বাটনগুলো নিচে নিচে নামাবে */
+    gap: 12px;
+    align-items: flex-start;
+    position: relative; /* এটি নিশ্চিত করবে কন্টেইনারটি সঠিক লেয়ারে আছে */
+    z-index: 10; /* যাতে অন্য কোনো এলিমেন্ট এর উপরে না থাকে */
+}
+
+.edit-profile-btn, .btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    width: 175px; 
+    pointer-events: auto; /* এটি নিশ্চিত করে যে বাটনটি ক্লিকেবল */
+    transition: 0.3s;
+}
+
+.edit-profile-btn {
+    background-color: #6c5ce7;
+    color: white;
+}
+
+.btn-logout {
+    background-color: #fff0f0;
+    color: #eb4d4b;
+    border: 1px solid #ffccd2;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* মোবাইল রেসপন্সিভ চূড়ান্ত সমাধান - রিফাত ভাইয়ের জন্য */
+@media screen and (max-width: 768px) {
+    
+    /* ১. মেইন হেডার কন্টেইনারকে ফ্লেক্স থেকে ব্লকে আনা */
+    .user-header {
+        flex-direction: column !important;
+        padding: 20px !important;
+        align-items: center !important;
+        gap: 20px !important;
+        text-align: center;
+    }
+
+    /* ২. প্রোফাইল ইনফো সেকশন (ছবি ও নাম) */
+    .profile-info {
+        flex-direction: column !important;
+        gap: 15px !important;
+        width: 100% !important;
+        align-items: center !important;
+    }
+
+    /* ৩. সাফল্যের হার গ্রাফ এবং সর্বশেষ পরীক্ষা কার্ড */
+    /* এগুলোকে আমরা মোবাইলে একটার নিচে একটা আনবো */
+    .graph-wrapper, .recent-exam-card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 300px;
+        margin-top: 15px !important;
+    }
+
+    /* ৪. বাটন কন্টেইনার (লগআউট ও সেটিংস) */
+    .action-wrapper {
+        width: 100% !important;
+        align-items: center !important;
+        margin-top: 20px !important;
+        flex-direction: row !important; /* মোবাইলে বাটন দুটি পাশাপাশি থাকলে ভালো দেখাবে */
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+
+    .edit-profile-btn, .btn-logout {
+        width: auto !important;
+        flex: 1; /* বাটন দুটি সমান সমান জায়গা নিবে */
+        max-width: 150px;
+        padding: 10px 5px !important;
+        font-size: 12px !important;
+    }
+
+    /* ৫. সিলেকশন বক্স এবং গ্রিড */
+    .custom-select-container {
+        flex-direction: column !important;
+    }
+    
+    .add-subject-btn {
+        width: 100% !important;
+        padding: 12px !important;
+    }
+
+    /* Compact adjustments: reduce paddings, font-sizes, and decorative elements */
+    .dashboard-container {
+        padding: 18px 12px !important;
+        max-width: 100% !important;
+    }
+
+    .user-header {
+        padding: 14px !important;
+        border-radius: 18px !important;
+    }
+
+    .avatar-circle {
+        width: 64px !important;
+        height: 64px !important;
+        border-width: 2px !important;
+    }
+
+    .user-text h2, .user-text p, .subject-box h3 {
+        font-size: 14px !important;
+    }
+
+    .subject-box {
+        padding: 18px 14px !important;
+        border-radius: 16px !important;
+        min-height: initial !important;
+    }
+
+    .subject-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .floating-bg { display: none !important; } /* hide decorative bubbles on small screens */
+
+    .modal-content.glass, .history-glass {
+        width: calc(100% - 32px) !important;
+        padding: 18px !important;
+        border-radius: 12px !important;
+    }
+
+    /* tighter action buttons */
+    .edit-profile-btn, .btn-logout {
+        width: auto !important;
+        padding: 8px 10px !important;
+        font-size: 13px !important;
+    }
+
+    /* compact graph */
+    .graph-container { width: 34px !important; height: 100px !important; }
+    #graph-percentage { top: -20px !important; font-size: 12px !important; }
+
+    /* reduce table padding for history on mobile */
+    th, td { padding: 8px !important; font-size: 13px !important; }
+}
+
+
+
+
+
+
+
+
+.graph-container {
+    position: relative;
+    width: 40px;
+    height: 120px;
+    background: #f1f5f9; /* হালকা ব্যাকগ্রাউন্ড */
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-end; /* নিচ থেকে শুরু হবে */
+    overflow: visible;
+    border: 1px solid #e2e8f0;
+}
+
+.graph-bar-outer {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden; /* বার যাতে বর্ডারের বাইরে না যায় */
+    display: flex;
+    align-items: flex-end;
+}
+
+.graph-bar-fill {
+    width: 100%;
+    height: 0%; /* JS এটা পরিবর্তন করবে */
+    background: linear-gradient(to top, #6366f1, #a855f7);
+    transition: height 1.5s ease-out;
+}
+
+#graph-percentage {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #6366f1;
+}
+
+
+
+
+
+
+/* সাবজেক্ট কার্ডের ডিলিট বাটন স্টাইল */
+.subject-box {
+    position: relative; /* বাটনটি এর সাপেক্ষে পজিশন হবে */
+}
+
+.remove-card-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    background: rgba(231, 76, 60, 0.1); /* লালচে হালকা আভা */
+    color: #e74c3c; /* লাল রঙ */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.remove-card-btn:hover {
+    background: #e74c3c;
+    color: white;
+    transform: rotate(90deg); /* হোভারে একটু ঘুরবে */
+}
+
+/* Extra compact rules for very small screens (phones) */
+@media screen and (max-width: 420px) {
+    /* two cards per row, minimal spacing */
+    .subject-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        align-items: start;
+    }
+
+    .subject-box {
+        padding: 12px 10px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 6px 18px rgba(16,24,40,0.03) !important;
+    }
+
+    .subject-box h3 { font-size: 15px !important; margin-bottom: 8px !important; }
+
+    /* compact header/profile area */
+    .user-header { padding: 12px !important; border-radius: 14px !important; }
+    .avatar-circle { width: 56px !important; height: 56px !important; }
+    .user-text h2 { font-size: 16px !important; }
+    .user-text p { font-size: 12px !important; color: #6b7280 !important; }
+
+    /* show a compact vertical bar graph on tiny screens */
+    .graph-wrapper { display: flex !important; flex-direction: column; align-items: center; width: 72px; }
+    .graph-container { width: 48px !important; height: 110px !important; }
+    .graph-bar-fill { border-radius: 12px !important; }
+
+    /* make modals compact and scrollable */
+    .modal-content.glass, .history-glass {
+        width: calc(100% - 28px) !important;
+        max-width: 360px !important;
+        padding: 14px !important;
+        border-radius: 12px !important;
+        max-height: 88vh !important;
+        overflow-y: auto !important;
+    }
+
+    /* compact form controls */
+    .input-group input, .file-input, select, .save-btn, .add-subject-btn {
+        padding: 8px 10px !important;
+        font-size: 14px !important;
+    }
+
+    .save-btn { padding: 10px !important; border-radius: 10px !important; }
+
+    /* tighten table spacing in history modal */
+    .table-wrapper { max-height: 60vh !important; }
+    th, td { padding: 6px 8px !important; font-size: 13px !important; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

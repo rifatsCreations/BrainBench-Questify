@@ -1,0 +1,40 @@
+<div id="auth-overlay" class="auth-overlay">
+    <link rel="stylesheet" href="auth-style.css">
+    
+    <div class="auth-card">
+        <span class="close-btn" onclick="closeAuth()">&times;</span>
+        
+        <div id="login-box">
+            <h2 class="auth-title">লগইন</h2>
+            <div class="auth-inputs">
+                <input type="email" id="login-email" placeholder="ইমেইল এড্রেস">
+                <input type="password" id="login-pass" placeholder="পাসওয়ার্ড">
+            </div>
+            <button class="auth-main-btn" onclick="handleSignIn()">সাইন ইন</button>
+            <p class="auth-alt-link"><span onclick="switchBox('forgot')">পাসওয়ার্ড ভুলে গেছেন?</span></p>
+            <p class="auth-footer">অ্যাকাউন্ট নেই? <span onclick="switchBox('reg')">Registration Here</span></p>
+        </div>
+
+        <div id="reg-box" style="display:none;">
+            <h2 class="auth-title">রেজিস্ট্রেশন</h2>
+            <div class="auth-inputs">
+                <input type="text" id="reg-name" placeholder="আপনার পূর্ণ নাম">
+                <input type="email" id="reg-email" placeholder="ইমেইল এড্রেস">
+                <input type="password" id="reg-pass" placeholder="পাসওয়ার্ড">
+            </div>
+            <button class="auth-main-btn" onclick="handleSignUp()">সাইন আপ</button>
+            <p class="auth-footer">ইতিমধ্যে অ্যাকাউন্ট আছে? <span onclick="switchBox('login')">Login Here</span></p>
+        </div>
+
+        <div id="forgot-box" style="display:none;">
+            <h2 class="auth-title">পাসওয়ার্ড রিসেট</h2>
+            <div class="auth-inputs">
+                <input type="email" id="forgot-email" placeholder="আপনার রেজিস্টার্ড ইমেইল">
+            </div>
+            <button class="auth-main-btn" onclick="handleForgotPassword()">রিসেট লিংক পাঠান</button>
+            <p class="auth-footer">অথবা <span onclick="switchBox('login')">লগইন করতে ফিরে যান</span></p>
+        </div>
+    </div>
+
+    <script src="auth-script.js"></script>
+</div>

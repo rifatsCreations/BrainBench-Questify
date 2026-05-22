@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BrainBench AI - Home</title>
+
+    <link rel="stylesheet" href="home-style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+    <canvas id="dotCanvas"></canvas>
+
+    <button
+        id="dark-theme-toggle"
+        class="dark-mode-toggle-btn"
+        onclick="toggleAppTheme()">
+        🌙
+    </button>
+
+    <div class="home-wrapper">
+
+        <div class="home-card">
+
+            <h1 class="brand-title">
+                BrainBench AI
+            </h1>
+
+            <p class="brand-tagline">
+                আপনার লক্ষ্য অর্জনে আমরা আছি আপনার সাথে।
+            </p>
+
+            <div class="button-container">
+
+                <button
+                    class="login-btn"
+                    onclick="openAuth('login')">
+
+                    লগইন করুন
+
+                </button>
+
+                <button
+                    class="reg-btn"
+                    onclick="openAuth('reg')">
+
+                    রেজিস্ট্রেশন করুন
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="auth-container"></div>
+
+    <script src="home-script.js"></script>
+
+</body>
+</html>

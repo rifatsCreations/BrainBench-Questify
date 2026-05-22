@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ</title>
+    <link rel="stylesheet" href="mcq-style.css">
+    <link rel="stylesheet" href="global-dark-mode.css">
+</head>
+<body>
+    <!-- কালারফুল বাবল কন্টেইনার -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+<button id="dark-theme-toggle" class="dark-mode-toggle-btn" onclick="toggleAppTheme()">🌙</button>
+    <div class="quiz-container">
+        <div class="header">
+            <button onclick="confirmExit()" class="back-btn">⬅️ পিছনে ফিরুন</button>
+            <h2 id="topic-title">প্রশ্ন লোড হচ্ছে...</h2>
+            <div id="timer-box">⏱️ সময় বাকি: <span id="time">10:00</span></div>
+        </div>
+
+        <div id="question-box">
+            <!-- জাভাস্ক্রিপ্ট এখানে প্রশ্ন রেন্ডার করবে -->
+        </div>
+
+        <!-- ক্রিয়েটিভ AI বক্স -->
+        <div id="ai-premium-box" class="ai-box">
+            <div class="ai-header">
+                <div class="ai-robot-icon">🤖</div>
+                <div class="ai-title-group">
+                    <h4>AI স্মার্ট বিশ্লেষণ</h4>
+                    <span class="ai-badge">Expert Review</span>
+                </div>
+            </div>
+            <div class="ai-body">
+                <p id="explanation-text"></p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div id="progress">প্রশ্ন: 1 / 20</div>
+            <div class="action-btns">
+                <button id="next-btn" class="btn next" onclick="nextQuestion()"> পরবর্তী প্রশ্ন</button>
+                <button id="submit-btn" class="btn submit" style="display:none;" onclick="calculateAndSave()">ফলাফল দেখুন</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- রেজাল্ট মোডাল কন্টেইনার -->
+<div id="resultModal" class="modal-overlay">
+    <div class="result-card">
+        <div class="confetti-icon">🎉</div>
+        <h2>অভিনন্দন! আপনার ফলাফল</h2>
+        <hr>
+        <div class="result-info">
+            <p><strong>সাবজেক্ট:</strong> <span id="res-subject">বাংলা</span></p>
+            <p><strong>টপিক:</strong> <span id="res-topic">এক কথায় প্রকাশ</span></p>
+            <div class="score-circle">
+                <span id="res-score">0</span> / <span id="res-total">20</span>
+            </div>
+            <p id="res-status" class="status-text"></p>
+        </div>
+        <div class="modal-btns">
+            <button onclick="window.location.href='dashboard.html'" class="dashboard-btn">ড্যাশবোর্ড</button>
+            <button onclick="location.reload()" class="retry-btn">আবার পরীক্ষা দিন</button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="mcq-script.js"></script>
+</body>
+<script src="global-theme-engine.js"></script>
+</html>

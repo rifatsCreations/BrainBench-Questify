@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Written</title>
+    <link rel="stylesheet" href="written-style.css">
+    <link rel="stylesheet" href="global-dark-mode.css">
+</head>
+<body>
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+      <button id="dark-theme-toggle" class="dark-mode-toggle-btn" onclick="toggleAppTheme()">🌙</button>
+    <div class="quiz-container">
+       <a href="javascript:void(0)" class="back-btn" onclick="confirmExit()">← ড্যাশবোর্ডে ফিরে যান</a>
+        <div class="header">
+            <h2 id="topic-title">লিখিত প্রশ্ন লোড হচ্ছে...</h2>
+            <div id="timer-box">⏱️ সময়: <span id="time">20:00</span></div>
+        </div>
+
+        <div id="question-box">
+            </div>
+
+        <div class="answer-section">
+            <label for="user-answer" style="font-weight: bold; color: #555; display: block; margin-bottom: 8px;">আপনার উত্তর লিখুন (টাইপ করুন অথবা খাতার ছবি/PDF আপলোড করুন):</label>
+            <textarea id="user-answer" placeholder="এখানে বিস্তারিত উত্তর টাইপ করুন..."></textarea>
+            
+            <div class="file-upload-wrapper" style="margin-bottom: 20px; display: flex; gap: 15px; align-items: center;">
+                <label class="btn-upload" style="background: #f3e8ff; color: var(--purple-main); border: 2px dashed var(--purple-main); display: inline-block; cursor: pointer; padding: 12px 24px; border-radius: 12px; font-weight: 600; transition: 0.3s;">
+                    📷 খাতার ছবি / PDF যোগ করুন
+                    <input type="file" id="user-file" accept="image/*, application/pdf" style="display: none;" onchange="handleFileSelect()">
+                </label>
+                <span id="file-name" style="font-size: 14px; color: #666; font-weight: 600;">কোনো ফাইল সিলেক্ট করা হয়নি</span>
+            </div>
+
+            <button id="check-btn" class="btn check" onclick="submitAnswer()">উত্তর জমা দিন (AI মূল্যায়ন)</button>
+        </div>
+
+        <div id="ai-premium-box" class="ai-box">
+            <div class="ai-header">
+                <div class="ai-robot-icon">🤖</div>
+                <div class="ai-title-group">
+                    <h4>AI স্মার্ট মূল্যায়ন</h4>
+                    <span class="ai-badge">Deep Analysis</span>
+                </div>
+            </div>
+            <div class="ai-body">
+                <p id="explanation-text"></p>
+                <div class="meter-bg"><div id="score-fill" class="meter-fill"></div></div>
+                <small id="score-text"></small>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div id="progress">প্রশ্ন: 1 / 10</div>
+            <div class="action-btns">
+                <button id="next-btn" class="btn next" onclick="nextQuestion()" style="display:none;">পরবর্তী প্রশ্ন</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="confetti-icon">🎊</div>
+            <h2>পরীক্ষা সম্পন্ন!</h2>
+            <div class="result-stat">
+                <div class="stat-item">সময় লেগেছে<b id="m-time">0</b></div>
+                <div class="stat-item">মোট স্কোর<b id="m-score">0</b></div>
+            </div>
+            <div class="modal-links">
+                <button onclick="backToTopic()" class="btn-link">টপিকে ফিরে যান</button>
+                <button onclick="backToSubject()" class="btn-link secondary">সাবজেক্টে ফিরে যান</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="written-script.js"></script>
+    <script src="global-theme-engine.js"></script>
+</body>
+</html>

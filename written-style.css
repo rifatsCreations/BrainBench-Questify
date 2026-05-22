@@ -1,0 +1,184 @@
+:root {
+    --purple-main: #8a2be2;
+    --purple-light: #f3e8ff;
+    --text-dark: #333;
+    --bg-light: #fcfaff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* বাবল অ্যানিমেশন - চারদিক থেকে */
+.bubbles {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+
+.bubble {
+    position: absolute;
+    background: linear-gradient(135deg, var(--purple-main), #c084fc);
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: moveAround 20s infinite linear;
+}
+
+.bubble:nth-child(1) { width: 150px; height: 150px; top: 10%; left: 5%; }
+.bubble:nth-child(2) { width: 200px; height: 200px; bottom: 10%; right: 5%; }
+.bubble:nth-child(3) { width: 120px; height: 120px; top: 40%; right: 15%; }
+.bubble:nth-child(4) { width: 180px; height: 180px; bottom: 30%; left: 10%; }
+
+@keyframes moveAround {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, 80px) scale(1.1); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* কন্টেইনার স্টাইল */
+.quiz-container {
+    max-width: 800px;
+    margin: 60px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 15px 40px rgba(138, 43, 226, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+
+
+.back-btn {
+    text-decoration: none;
+    color: #6366f1;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    color: #4f46e5;
+    transform: translateX(-5px);
+}
+
+/* হেডার ও টেক্সট */
+.header h2 { color: var(--purple-main); margin-bottom: 5px; }
+#timer-box { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+/* টেক্সট এরিয়া */
+textarea {
+    width: 100%;
+    height: 180px;
+    padding: 20px;
+    border: 2px solid #eee;
+    border-radius: 16px;
+    font-size: 16px;
+    margin: 15px 0;
+    resize: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+textarea:focus {
+    border-color: var(--purple-main);
+    box-shadow: 0 0 12px rgba(138, 43, 226, 0.15);
+    outline: none;
+}
+
+/* আপলোড বাটন হোভার ইফেক্ট */
+.btn-upload:hover {
+    background: var(--purple-main) !important;
+    color: white !important;
+    transform: scale(1.02);
+}
+
+/* বাটন স্টাইল */
+.btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn.check {
+    background: var(--purple-main);
+    color: white;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn.check:hover { background: #7022b8; transform: translateY(-2px); }
+.btn.next { background: #2ecc71; color: white; }
+.btn.next:hover { background: #27ae60; }
+
+/* ক্রিয়েটিভ AI বক্স স্টাইল */
+.ai-box {
+    display: none; background: #fdfaff; border: 1px solid #e9d5ff;
+    border-radius: 18px; padding: 20px; margin-top: 25px;
+    animation: slideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.ai-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
+.ai-robot-icon { font-size: 2rem; }
+.ai-badge { background: #8a2be2; color: white; font-size: 10px; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; }
+.ai-body { color: #334155; line-height: 1.7; font-size: 0.98rem; }
+
+/* প্রোগ্রেস মিটার বার */
+.meter-bg { background: #e2e8f0; width: 100%; height: 12px; border-radius: 10px; margin: 15px 0 5px 0; overflow: hidden; }
+.meter-fill { background: linear-gradient(90deg, #8a2be2, #a855f7); width: 0%; height: 100%; transition: width 1s ease-in-out; }
+#score-text { font-weight: bold; color: var(--purple-main); font-size: 14px; }
+
+@keyframes slideIn { from {opacity:0; transform: scale(0.9);} to {opacity:1; transform: scale(1);} }
+
+/* রেজাল্ট মোডাল */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 28px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-links { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
+
+.btn-link {
+    padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold;
+    background: var(--purple-main); color: white; text-decoration: none; transition: 0.3s;
+}
+.btn-link.secondary { background: #f3e8ff; color: var(--purple-main); }
+.btn-link:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(138,43,226,0.2); }
+
+/* স্ট্যাট বক্স */
+.result-stat { display: flex; justify-content: space-around; background: #f8faff; padding: 20px; border-radius: 18px; margin: 20px 0; }
+.stat-item b { display: block; font-size: 1.4rem; color: var(--purple-main); }
+
+/* ফুটার সেকশন */
+.footer { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
+#progress { color: #888; font-weight: 500; }

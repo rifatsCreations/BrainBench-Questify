@@ -1,0 +1,370 @@
+/* ==========================================================================
+   🌌 TRUE DARK AESTHETIC MODE (DASHBOARD & DROP-DOWN ULTRA FIX)
+   ========================================================================== */
+
+body.dark-theme {
+    background:
+        linear-gradient(
+            180deg,
+            #02040a 0%,
+            #050816 45%,
+            #070b18 100%
+        ) !important;
+    color: #f8fafc !important;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   🌑 MAIN DASHBOARD WRAPPER
+   ========================================================================== */
+body.dark-theme .dashboard-container {
+    background: rgba(5, 8, 18, 0.96) !important;
+    border: 1px solid rgba(255,255,255,0.04) !important;
+    border-radius: 34px !important;
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.02),
+        0 30px 80px rgba(0,0,0,0.75),
+        0 0 35px rgba(251,191,36,0.06) !important;
+}
+
+/* ==========================================================================
+    🚫 সমস্ত গোল্ডেন বর্ডার ও গ্লো সম্পূর্ণ রিমুভ (ব্যাকগ্রাউন্ডের সাথে ফ্ল্যাট থাকবে)
+   ========================================================================== */
+body.dark-theme .home-card,
+body.dark-theme .quiz-container,
+body.dark-theme .question-card,
+body.dark-theme .ai-box,
+body.dark-theme .user-header,
+body.dark-theme .profile-info,
+body.dark-theme .recent-exam-card,
+body.dark-theme .selection-box,
+body.dark-theme .action-wrapper,
+body.dark-theme .modal-content,
+body.dark-theme .custom-select-container,
+body.dark-theme .custom-dropdown-wrapper,
+body.dark-theme .custom-dropdown-header,
+body.dark-theme div[class*="card"]:not(.subject-box), /* সাবজেক্ট বক্স বাদে বাকি সব কার্ড */
+body.dark-theme div[class*="box"]:not(.subject-box) {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,10,22,0.98),
+            rgba(3,7,16,0.98)
+        ) !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important; /* গোল্ডেন বাদ, খুব হালকা ডার্ক বর্ডার */
+    box-shadow: 
+        0 12px 45px rgba(0,0,0,0.70),
+        inset 0 1px 0 rgba(255,255,255,0.02) !important; /* গ্লো সম্পূর্ণ রিমুভড */
+    border-radius: 30px !important;
+    backdrop-filter: blur(16px);
+    transition: all 0.30s ease !important;
+}
+
+
+
+/* ==========================================================================
+    🔮 কাস্টম সিলেক্ট কন্টেইনারে নরমাল অবস্থায় পার্পল গ্লোয়িং বর্ডার
+   ========================================================================== */
+body.dark-theme .dashboard-container
+ {
+    border: 2px solid rgba(124, 58, 237, 0.75) !important; /* কড়া পার্পল গ্লোয়িং বর্ডার */
+    border-radius: 15px !important; /* আপনার আগের ড্রপডাউন বডি শেপ ঠিক রাখার জন্য */
+    background: rgba(6, 10, 20, 0.96) !important;
+    
+    /* চারপাশ জুড়ে নিখুঁত পার্পল নিয়ন গ্লো আভা */
+    box-shadow:
+        0 0 15px rgba(124, 58, 237, 0.45),
+        inset 0 0 10px rgba(124, 58, 237, 0.15) !important;
+        
+    transition: all 0.25s ease !important;
+}
+
+
+
+/* ==========================================================================
+    🔮 শুধু নিচের সাবজেক্ট কার্ডগুলোর জন্য গ্লোয়িং পার্পল ইফেক্ট
+   ========================================================================== */
+body.dark-theme .subject-grid .subject-box,
+body.dark-theme .subject-box,
+body.dark-theme div[class*="subject-box"],
+body.dark-theme .custom-dropdown-header,
+body.dark-theme div[class*="custom-dropdown-header"] {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,10,22,0.95),
+            rgba(3,7,16,0.95)
+        ) !important;
+    border: 2px solid rgba(124, 58, 237, 0.6) !important; /* নিখুঁত পার্পল বর্ডার */
+    border-radius: 30px !important;
+    
+    /* ✨ গ্লোয়িং পার্পল শ্যাডো ইফেক্ট */
+    box-shadow:
+        0 12px 45px rgba(0,0,0,0.60),
+        0 0 12px rgba(124, 58, 237, 0.4),   /* পার্পল কোর গ্লো */
+        0 0 25px rgba(124, 58, 237, 0.25),  /* মিডিয়াম ছড়ানো আভা */
+        inset 0 0 12px rgba(124, 58, 237, 0.2) !important;
+        
+    backdrop-filter: blur(16px);
+    transition: all 0.30s ease !important;
+
+
+    border: 2px solid rgba(124, 58, 237, 0.7) !important; /* নরমাল অবস্থাতেই কড়া পার্পল বর্ডার */
+    background: rgba(6, 10, 20, 0.96) !important;
+    color: #ffffff !important;
+    
+    /* ✨ চারপাশ জুড়ে সুন্দর পার্পল নিয়ন গ্লো */
+    box-shadow:
+        0 0 10px rgba(124, 58, 237, 0.35),
+        inset 0 0 8px rgba(124, 58, 237, 0.15) !important;
+    
+    transition: all 0.25s ease !important;
+}
+
+/* ==========================================================================
+    🚨 ড্রপডাউন ইঞ্জিন ও একটিভ/হোভার এলিমেন্ট (গ্লোয়িং পার্পল)
+   ========================================================================== */
+body.dark-theme .custom-dropdown-list,
+body.dark-theme .custom-dropdown-list div,
+body.dark-theme div[id*="dropdown-list"],
+body.dark-theme .dropdown-wrapper div {
+    background-color: #050a16 !important;
+    background: #050a16 !important;
+    color: #ffffff !important;
+}
+
+/* ড্রপডাউন ও সাবজেক্ট কার্ড হোভার করলে বা সিলেক্টেড থাকলে গ্লো আরও বুস্ট হবে */
+body.dark-theme .custom-dropdown-list div:hover,
+body.dark-theme .dropdown-wrapper div:hover
+ {
+    background-color: #7c3aed !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.6) !important;
+}
+/* ==========================================================================
+   🌟 BOX HOVER EFFECT
+   ========================================================================== */
+body.dark-theme .user-header:hover,
+body.dark-theme .recent-exam-card:hover,
+body.dark-theme .subject-box:hover,
+body.dark-theme .selection-box:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 18px 55px rgba(0,0,0,0.82),
+        0 0 35px rgba(251,191,36,0.15), /* কড়া গোল্ডেন গ্লো অন হোভার */
+        0 0 70px rgba(168,85,247,0.08) !important;
+}
+
+/* ==========================================================================
+   👤 PROFILE IMAGE
+   ========================================================================== */
+body.dark-theme .avatar-circle {
+    border: 2px solid rgba(251,191,36,0.18) !important;
+    box-shadow:
+        0 0 15px rgba(251,191,36,0.10),
+        0 0 40px rgba(168,85,247,0.10) !important;
+}
+
+/* ==========================================================================
+   📊 GRAPH / SUCCESS BAR
+   ========================================================================== */
+body.dark-theme .graph-wrapper,
+body.dark-theme .graph-container,
+body.dark-theme .graph-bar-container {
+    background: rgba(5,10,20,0.96) !important;
+    border: 1px solid rgba(255,255,255,0.04) !important;
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,0.02),
+        0 0 25px rgba(251,191,36,0.04) !important;
+}
+
+body.dark-theme .graph-bar-fill {
+    background:
+        linear-gradient(
+            180deg,
+            #60a5fa 0%,
+            #7c3aed 55%,
+            #c084fc 100%
+        ) !important;
+    border: none !important;
+    box-shadow:
+        0 0 18px rgba(168,85,247,0.30),
+        0 0 35px rgba(96,165,250,0.18) !important;
+}
+
+body.dark-theme .graph-label,
+body.dark-theme #graph-percentage {
+    color: #7c3aed !important;
+    font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   🔘 BUTTONS
+   ========================================================================== */
+body.dark-theme button,
+body.dark-theme .history-btn,
+body.dark-theme .edit-profile-btn,
+body.dark-theme .save-btn,
+body.dark-theme .add-subject-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        ) !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+    color: white !important;
+    box-shadow:
+        0 8px 24px rgba(124,58,237,0.30),
+        0 0 35px rgba(168,85,247,0.16) !important;
+    transition: all 0.25s ease !important;
+}
+
+body.dark-theme button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 12px 35px rgba(168,85,247,0.40),
+        0 0 40px rgba(251,191,36,0.08) !important;
+}
+
+body.dark-theme .btn-logout {
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #1f2937
+        ) !important;
+}
+
+/* ==========================================================================
+   📥 INPUT / DROPDOWN FIELD
+   ========================================================================== */
+body.dark-theme input,
+body.dark-theme select,
+body.dark-theme textarea,
+body.dark-theme .custom-select-button {
+    background: #7c3aed !important;
+    border: 1px solid rgba(251, 191, 36, 0.2) !important;
+    color: #ffffff !important;
+    box-shadow:
+        inset 0 0 12px rgba(255,255,255,0.015),
+        0 0 18px rgba(251, 191, 36, 0.05) !important;
+}
+
+/* ==========================================================================
+   🌫️ GLOWING FLOATING BUBBLES (CIRCLE GOLD GLOW FIX)
+   ========================================================================== */
+body.dark-theme .bubble,
+body.dark-theme .floating-bg div,
+body.dark-theme .bubbles div {
+    background: transparent !important; /* ব্যাকগ্রাউন্ড সম্পূর্ণ ট্রান্সপারেন্ট */
+    border: 2px solid rgba(251, 191, 36, 0.7) !important; /* বর্ডারের গোল্ডেন কালার আরও কড়া করা হলো */
+    border-radius: 100% !important; 
+    opacity: 0.95 !important; /* ভিজিবিলিটি আরেকটু বাড়ানো হলো */
+    filter: blur(0.3px); /* গ্লো শার্প রাখার জন্য ব্লার সামান্য কমানো হলো */
+    
+    /* ✨ [সুপার বুস্টেড] চারপাশ জুড়ে কড়া নিয়ন গোল্ডেন গ্লোয়িং ইফেক্ট */
+    box-shadow:
+        0 0 10px rgba(251, 191, 36, 0.4),   /* ভেতরের কোর গ্লো */
+        0 0 25px rgba(251, 191, 36, 0.6),   /* মিডিয়াম রেঞ্জ ছড়ানো গ্লো */
+        0 0 45px rgba(251, 191, 36, 0.35),  /* দীর্ঘ রেঞ্জের সফট আভা */
+        inset 0 0 15px rgba(251, 191, 36, 0.3) !important; /* বাবলের ভেতরের দিকের গ্লো */
+        
+    animation: floatingGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes floatingGlow {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    100% {
+        transform: translateY(-18px) scale(1.08);
+    }
+}
+
+/* ==========================================================================
+   🌓 DAY / NIGHT TOGGLE BUTTON
+   ========================================================================== */
+.dark-mode-toggle-btn {
+    position: fixed !important;
+    right: 25px !important;
+    bottom: 25px !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #c084fc
+        ) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    box-shadow:
+        0 0 20px rgba(168,85,247,0.35),
+        0 0 45px rgba(251,191,36,0.08) !important;
+    z-index: 99999 !important;
+}
+
+.dark-mode-toggle-btn:hover {
+    transform: scale(1.08);
+    box-shadow:
+        0 0 30px rgba(168,85,247,0.50),
+        0 0 65px rgba(251,191,36,0.12) !important;
+}
+
+/* ==========================================================================
+   📝 TEXT COLORS PROTECTION
+   ========================================================================== */
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5 {
+    color: #ffffff !important;
+}
+
+body.dark-theme p,
+body.dark-theme span,
+body.dark-theme label,
+body.dark-theme td {
+    color: rgba(255,255,255,0.82) !important;
+}
+
+body.dark-theme th {
+    color: #7c3aed !important;
+}
+
+
+
+
+/* ==========================================================================
+   Dark Mode Correct & Wrong Option Fix
+   ========================================================================== */
+
+/* ১. সঠিক উত্তর সিলেক্ট করলে (সবুজ কালার ফিক্স) */
+body.dark-theme .option-btn[style*="rgb(46, 20, 113)"],
+body.dark-theme .option-btn[style*="rgb(46, 204, 113)"],
+body.dark-theme #options-container .option-btn[style*="113"] {
+    background-color: #2ecc71 !important;    /* উজ্জ্বল সবুজ ব্যাকগ্রাউন্ড */
+    background: #2ecc71 !important;          /* ফোর্সেড ব্যাকগ্রাউন্ড ওভাররাইড */
+    color: #ffffff !important;               /* একদম স্পষ্ট সাদা টেক্সট */
+    border: 2px solid #27ae60 !important;    /* গাঢ় সবুজ বর্ডার */
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ২. ভুল উত্তর সিলেক্ট করলে (লাল কালার ফিক্স) */
+body.dark-theme .option-btn[style*="rgb(231, 76, 60)"],
+body.dark-theme #options-container .option-btn[style*="231"] {
+    background-color: #e74c3c !important;    /* উজ্জ্বল লাল ব্যাকগ্রাউন্ড */
+    background: #e74c3c !important;          /* ফোর্সেড ব্যাকগ্রাউন্ড ওভাররাইড */
+    color: #ffffff !important;               /* একদম স্পষ্ট সাদা টেক্সট */
+    border: 2px solid #c0392b !important;    /* গাঢ় লাল বর্ডার */
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ৩. বাটন ক্লিক হওয়ার পর ব্রাউজার যেন ঝাপসা বা ফেড না করে দেয় */
+body.dark-theme .option-btn:disabled,
+body.dark-theme .option-btn[disabled] {
+    opacity: 1 !important;                   /* ফুল কালার ভিজিবিলিটি */
+    filter: none !important;                 /* কোনো ডার্ক ফিল্টার থাকবে না */
+}

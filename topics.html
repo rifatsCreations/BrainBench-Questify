@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topics</title>
+    <!-- CSS ফাইল লিঙ্ক -->
+    <link rel="stylesheet" href="dashboard-style.css"> 
+    <link rel="stylesheet" href="topics-style.css">
+    <link rel="stylesheet" href="global-dark-mode.css">
+</head>
+<body>
+
+    <!-- ব্যাকগ্রাউন্ড বাবল অ্যানিমেশন -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble" style="left: 20%; width: 80px; height: 80px; animation-delay: 2s;"></div>
+        <div class="bubble" style="left: 70%; width: 120px; height: 120px; animation-delay: 4s;"></div>
+        <div class="bubble" style="left: 40%; width: 60px; height: 60px; animation-delay: 1s;"></div>
+        <div class="bubble" style="left: 85%; width: 100px; height: 100px; animation-delay: 3s;"></div>
+    </div>
+     <button id="dark-theme-toggle" class="dark-mode-toggle-btn" onclick="toggleAppTheme()">🌙</button>
+    <div class="topics-wrapper">
+        <a href="dashboard.html" class="back-btn">← ড্যাশবোর্ডে ফিরে যান</a>
+        
+        <header class="topics-header">
+            <h1 id="dynamic-subject-name">টপিক লোড হচ্ছে...</h1>
+            <p>আপনার পছন্দের টপিকটি বেছে নিয়ে প্রস্তুতি শুরু করুন</p>
+        </header>
+
+        <!-- ডাটাবেস থেকে কার্ডগুলো এই কন্টেইনারে আসবে -->
+        <div id="topics-container" class="topics-grid">
+            <div class="loader-text">লোড হচ্ছে, দয়া করে অপেক্ষা করুন...</div>
+        </div>
+    </div>
+
+    <!-- Supabase SDK এবং JS ফাইল লিঙ্ক -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="topics-script.js"></script>
+    <script src="global-theme-engine.js"></script>
+</body>
+</html>
